@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     private float inputDirection; // x value of our movevector
     private float verticalVelocity; // Y value of our move vector
@@ -86,14 +86,15 @@ public class PlayerController : MonoBehaviour
             moveVector = Vector3.zero;
             switch(playerID)
             {
-                //Player 1
+                #region Player 1
                 case 1:
                     inputDirection = Input.GetAxis("Horizontal") * speed;
                     value = Input.GetAxis("Horizontal");
                     attackButtonAxisName = "Fire1";
                     jumpButtonAxisName = "Jump";
                     break;
-                //Player 2
+                #endregion
+                #region Player 2
                 case 2:
                     //Do the player 2  controllers
                     inputDirection = Input.GetAxis("Horizontal2") * speed;
@@ -101,7 +102,8 @@ public class PlayerController : MonoBehaviour
                     attackButtonAxisName = "Fire2";
                     jumpButtonAxisName = "Fire3";
                     break;
-                default :
+                #endregion
+                default:
                     inputDirection = Input.GetAxis("Horizontal") * speed;
                     value = Input.GetAxis("Horizontal");
                     attackButtonAxisName = "Fire1";
