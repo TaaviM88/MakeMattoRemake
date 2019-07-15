@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         initialPos = transform.position;
+        Debug.Log(initialPos);
         controller = GetComponent<CharacterController>();
         //anime = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
@@ -72,10 +73,12 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.transform.position.z != 0)
+        if (gameObject.transform.position.z != initialPos.z)
         {
+            Debug.Log(transform.position);
             transform.position = new Vector3(transform.position.x, transform.position.y, initialPos.z);
-            //Debug.Log ("Moved player");
+            
+            Debug.Log ("Moved player" + transform.position);
         }
 
         if (CanPlayerMove == true)

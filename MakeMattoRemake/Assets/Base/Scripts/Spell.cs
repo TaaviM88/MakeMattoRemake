@@ -8,7 +8,6 @@ public class Spell : MonoBehaviour
     public string Spellname = " ";
     private float sTimer = 0;
     public float fadeTime;
-
     public float force = 10f;
     public float damage = 10;
     private Rigidbody _rb;
@@ -19,6 +18,24 @@ public class Spell : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        var collision = particleLauncher.collision;
+        switch (playerID)
+        {
+            case 1:
+                gameObject.layer = 8;
+                collision.enabled = true;
+                collision.collidesWith +=  1 << 11;
+                collision.collidesWith += 1 << 9;
+                
+                break;
+
+            case 2:
+                gameObject.layer = 9;
+                collision = particleLauncher.collision;
+                collision.collidesWith += 1 << 10;
+                collision.collidesWith += 1 << 8;
+                break;
+        }
     }
 
     // Update is called once per frame

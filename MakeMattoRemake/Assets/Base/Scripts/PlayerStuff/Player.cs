@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
     bool dead = false;
 
     PlayerMovement pMovement;
-    private int playerID = 0;
+    public int playerID = 0;
 
     //Weapon wp;
     void Start()
@@ -49,7 +49,16 @@ public class Player : MonoBehaviour
         currentShield = MaxShield;
 
         currentSpell = baseSpell;
-
+        switch(playerID)
+        {
+            case 1:
+                gameObject.layer = 10;
+                break;
+            case 2:
+                gameObject.layer = 11;
+                break;
+        }
+       
     }
 
     // Update is called once per frame
@@ -70,7 +79,17 @@ public class Player : MonoBehaviour
                     break;
                 #endregion
 
-                 default:
+                #region Player2
+                case 2:
+                    if (Input.GetButton("Fire4") && Time.time > nextFire)
+                    {
+                        //use basic spell
+                        CastSpell();
+                        nextFire = Time.time + fireRate;
+                    }
+                    break;
+#endregion
+                default:
                     Debug.Log($"{gameObject.name} doesn't have proper playerID. Let's use player 1 controls.  Player-script");
                     if (Input.GetButton("Fire1"))
                     {
@@ -93,7 +112,7 @@ public class Player : MonoBehaviour
             spellClone = Instantiate(currentSpell, spellStartPoint.position, Quaternion.Euler(0, 270, 0));
         }
         
-
+        
         //test if we can give spell our gameobject rotation. If it doesn't work change to upper one.
         //GameObject spellClone = Instantiate(currentSpell, spellStartPoint.position, transform.rotation);
         Spell spell = spellClone.GetComponent<Spell>();

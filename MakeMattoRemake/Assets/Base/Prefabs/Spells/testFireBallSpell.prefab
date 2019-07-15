@@ -4830,3 +4830,4 @@ MonoBehaviour:
   particleLauncher: {fileID: 1831997803446617942}
   spellHitParticleEffect: {fileID: 0}
   playerID: 0
+  layerToggle: 0
