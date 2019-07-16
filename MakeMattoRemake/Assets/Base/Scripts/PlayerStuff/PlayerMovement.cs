@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         initialPos = transform.position;
-        Debug.Log(initialPos);
+       
         controller = GetComponent<CharacterController>();
         //anime = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
@@ -68,6 +68,8 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = lookLeft;
             _facingRight = false;
         }
+
+        IsControllerGrounded();
     }
 
     // Update is called once per frame
@@ -75,10 +77,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (gameObject.transform.position.z != initialPos.z)
         {
-            Debug.Log(transform.position);
-            transform.position = new Vector3(transform.position.x, transform.position.y, initialPos.z);
-            
-            Debug.Log ("Moved player" + transform.position);
+            transform.position = new Vector3(transform.position.x, transform.position.y, initialPos.z);  
         }
 
         if (CanPlayerMove == true)
@@ -294,12 +293,12 @@ public class PlayerMovement : MonoBehaviour
     {
         CanPlayerMove = true;
         //pelaaja voi liikkua
-        //Debug.Log("pelaaja1 voi liikkua");
+
     }
     public void DisablePlayerMovement()
     {
         CanPlayerMove = false;
         //pelaaja ei voi liikkua
-        //Debug.Log("pelaaja1 ei voi liikkua");
+
     }
 }

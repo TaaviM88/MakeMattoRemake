@@ -58,7 +58,9 @@ public class Player : MonoBehaviour
                 gameObject.layer = 11;
                 break;
         }
-       
+
+        GameObject obj = GameObject.FindObjectOfType<Cinemachine.CinemachineTargetGroup>().gameObject;
+        obj.GetComponent<Cinemachine.CinemachineTargetGroup>().AddMember(gameObject.transform, 1, 0);
     }
 
     // Update is called once per frame
