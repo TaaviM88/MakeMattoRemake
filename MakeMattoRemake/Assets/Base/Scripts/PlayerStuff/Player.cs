@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     // Start is called before the first frame update
     [Header("Player stats")]
+    public string charName = "";
     private float currentHealth = 10;
     [SerializeField]
     private float MaxHp = 100;
@@ -19,8 +20,8 @@ public class Player : MonoBehaviour
     [Header("Spell Settings")]
     public Transform spellStartPoint;
 
-    [SerializeField]
-    private GameObject baseSpell;
+
+    public GameObject baseSpell;
     
     private GameObject currentSpell;
 
@@ -40,11 +41,12 @@ public class Player : MonoBehaviour
     PlayerMovement pMovement;
     public int playerID = 0;
 
+    public Sprite characterAvatarImage;
     //Weapon wp;
     void Start()
     {
         pMovement = GetComponent<PlayerMovement>();
-        playerID = pMovement.playerID;
+        pMovement.playerID = playerID;
         currentHealth = MaxHp;
         currentShield = MaxShield;
 

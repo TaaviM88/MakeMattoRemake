@@ -10,7 +10,15 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        instance = this;      
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+        DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame
@@ -46,7 +54,7 @@ public class GameManager : MonoBehaviour
         {
            for (int i = 0; i < players.Count; i++)
             {
-                if (players[i].GetComponent<PlayerMovement>().playerID == newPlayer.GetComponent<PlayerMovement>().playerID)
+                if (players[i].GetComponent<Player>().playerID == newPlayer.GetComponent<Player>().playerID)
                 {
                     containPlayer = true;
                     break;
@@ -60,6 +68,7 @@ public class GameManager : MonoBehaviour
            if(!containPlayer)
             {
                 players.Add(newPlayer);
+
             }
             
         }
@@ -77,25 +86,25 @@ public class GameManager : MonoBehaviour
         {
             for (int j = 0; j < spawnPoints.Count; j++)
             {
-                if (players[i].GetComponent<PlayerMovement>().playerID == spawnPoints[j].GetComponent<SpawnPoint>().playerID)
+                if (players[i].GetComponent<Player>().playerID == spawnPoints[j].GetComponent<SpawnPoint>().playerID)
                 {
                     Instantiate(players[i], new Vector3(spawnPoints[j].transform.position.x, spawnPoints[j].transform.position.y, spawnPoints[j].transform.position.z),Quaternion.identity);
                 }
-               /* else
+                else
                 {
-                   if(players[i].GetComponent<PlayerMovement>().playerID == spawnPoints[j + 1].GetComponent<SpawnPoint>().playerID)
+                   if(players[i].GetComponent<Player>().playerID == spawnPoints[j + 1].GetComponent<SpawnPoint>().playerID)
                     {
                         Instantiate(players[i], spawnPoints[j].transform);
                     }
-                   else if(players[i+1].GetComponent<PlayerMovement>().playerID == spawnPoints[j].GetComponent<SpawnPoint>().playerID)
+                   else if(players[i+1].GetComponent<Player>().playerID == spawnPoints[j].GetComponent<SpawnPoint>().playerID)
                     {
                         Instantiate(players[i], spawnPoints[j].transform);
                     }
                    else
                     {
-                        Debug.Log($"Can't find correct spawnpoint for {players[i].GetComponent<PlayerMovement>().playerID}");
+                        Debug.Log($"Can't find correct spawnpoint for {players[i].GetComponent<Player>().playerID}");
                     }
-                }*/
+                }
                 
             }
             
