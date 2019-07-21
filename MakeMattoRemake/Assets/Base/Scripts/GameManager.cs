@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public List<GameObject> spawnPoints = new List<GameObject>();
     public List<GameObject> players = new List<GameObject>();
+    bool weHaveWinner = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -109,5 +110,45 @@ public class GameManager : MonoBehaviour
             }
             
         }
+    }
+
+    public void RemovePlayer(GameObject deadPlayer)
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i].GetComponent<Player>().playerID == deadPlayer.GetComponent<Player>().playerID)
+            {
+                Debug.Log($"Losers name {players[i].name}");
+                players.RemoveAt(i);
+                CheckWinner();
+                break;
+                
+            }
+        }
+    }
+
+    public void CheckWinner()
+    {
+        if(!weHaveWinner)
+        {
+            if (players.Count == 1)
+            {
+                //DO WINNING STUFF HERE
+                Debug.Log($"Winner is Player: {players[0].GetComponent<Player>().playerID}");
+                Time.timeScale = 0;
+                Debug.Log($"TimeScale is: {Time.timeScale}");
+
+            }
+
+            else if (players.Count < 1)
+            {
+                //DO STUFF IF SOMEREASON ALL PLAYERS ARE DEAD
+                Debug.Log($"There are no players left. Abort the mission guys");
+                Time.timeScale = 0;
+
+            }
+        }
+
+     
     }
 }

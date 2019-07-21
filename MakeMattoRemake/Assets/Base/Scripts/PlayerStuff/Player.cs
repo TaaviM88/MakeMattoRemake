@@ -82,7 +82,6 @@ public class Player : MonoBehaviour
                     }
                     break;
                 #endregion
-
                 #region Player2
                 case 2:
                     if (Input.GetButton("Fire4") && Time.time > nextFire)
@@ -101,6 +100,12 @@ public class Player : MonoBehaviour
                     }
                     break;
             }
+        }
+
+        if(Input.GetButtonDown("kill"))
+        {
+            Debug.Log("I kill myself for science!PS: this is just a test");
+            TakeDamageHP(MaxHp);
         }
     }
 
@@ -126,7 +131,7 @@ public class Player : MonoBehaviour
 
     public void CastSpecialSpell()
     {
-
+        Debug.Log("Hahaaa! Special Attack! I just need an effect ;_;");
     }
 
     public void UpdateSpell(GameObject newSpell)
@@ -155,9 +160,10 @@ public class Player : MonoBehaviour
         //Dying stuff
         if (!dead)
         {
-
             dead = true;
             Debug.Log($"Player{playerID} dies");
+            GameManager.instance.RemovePlayer(gameObject);
+            gameObject.SetActive(false);
         }
         
 
