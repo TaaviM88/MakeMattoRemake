@@ -6,12 +6,28 @@ using TMPro;
 public class PlayerPortrait : MonoBehaviour
 {
     public Image playerPortrait;
-    public TMP_Text charName;
+    public TMP_Text charName, playerReadyTmp;
 
-
+    bool ready = false;
     public void UpdateInfo(GameObject character)
     {
-        playerPortrait.sprite = character.GetComponent<Player>().characterAvatarImage;
-        charName.text = $"Player {character.GetComponent<Player>().playerID}: {character.GetComponent<Player>().charName}";
+        if(!ready)
+        {
+            playerPortrait.sprite = character.GetComponent<Player>().characterAvatarImage;
+            charName.text = $"Player {character.GetComponent<Player>().playerID}: {character.GetComponent<Player>().charName}";
+        }
+    }
+
+    public void PlayerIsReady(bool b)
+    {
+        if (b)
+        {
+            playerReadyTmp.text = "Ready";
+        }else
+        {
+            playerReadyTmp.text = "";
+        }
+        
+        ready = b;
     }
 }

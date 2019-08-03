@@ -44,7 +44,6 @@ public class GameManager : MonoBehaviour
         {
             spawnPoints.Add(newSpawn);
         }
-        
     }
 
     public void AddPlayerToList(GameObject newPlayer)
@@ -68,8 +67,9 @@ public class GameManager : MonoBehaviour
 
            if(!containPlayer)
             {
+                
                 players.Add(newPlayer);
-
+                Debug.Log($"Added player {newPlayer.name} and Playerlist count is {players.Count}");
             }
             
         }
@@ -122,7 +122,6 @@ public class GameManager : MonoBehaviour
                 players.RemoveAt(i);
                 CheckWinner();
                 break;
-                
             }
         }
     }
@@ -137,7 +136,6 @@ public class GameManager : MonoBehaviour
                 Debug.Log($"Winner is Player: {players[0].GetComponent<Player>().playerID}");
                 Time.timeScale = 0;
                 Debug.Log($"TimeScale is: {Time.timeScale}");
-
             }
 
             else if (players.Count < 1)
@@ -145,10 +143,7 @@ public class GameManager : MonoBehaviour
                 //DO STUFF IF SOMEREASON ALL PLAYERS ARE DEAD
                 Debug.Log($"There are no players left. Abort the mission guys");
                 Time.timeScale = 0;
-
             }
         }
-
-     
     }
 }

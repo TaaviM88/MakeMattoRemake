@@ -17,7 +17,7 @@ public class SpawnPoint : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if(!hasSpawnedPlayers && spawnplayers)
         {
