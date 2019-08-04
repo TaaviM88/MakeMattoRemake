@@ -48,19 +48,13 @@ public class MainMenu : MonoBehaviour
             prefabIndexP1++;
             if (prefabIndexP1 < buttonList.Count)
             {
-                //eventSystem.SetSelectedGameObject(buttonList[prefabIndexP1]);
-
                 CharacterButton charB = buttonList[prefabIndexP1].GetComponent<CharacterButton>(); //eventSystem.currentSelectedGameObject.GetComponent<CharacterButton>();
-                charB.UpdateAvatar(1);
-                Debug.Log($"Current button is {buttonList[prefabIndexP1].name}");
-            }
+                charB.UpdateAvatar(1);            }
             else
             {
                 prefabIndexP1 = 0;
                 CharacterButton charB = buttonList[prefabIndexP1].GetComponent<CharacterButton>(); //eventSystem.currentSelectedGameObject.GetComponent<CharacterButton>();
                 charB.UpdateAvatar(1);
-                //eventSystem.SetSelectedGameObject(buttonList[prefabIndexP1]);
-                Debug.Log($"Reset! Current button is {buttonList[prefabIndexP1].name}");
             }
 
         }

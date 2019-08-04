@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class CharacterButton : MonoBehaviour
 {
     public GameObject characterPrefab;
+
     public TMP_Text nameSlot, spellNameSlot;
     public Image portrait;
     //EventSystem _eventS;
@@ -17,22 +18,23 @@ public class CharacterButton : MonoBehaviour
     void Start()
     {
         //   _eventS = EventSystem.current;
-      /*  foreach (EventSystem e in GameObject.FindObjectsOfType<EventSystem>())
-        {
-           if(e.name == "cursor1")
-            {
-                Debug.Log("Löyty cursor1");
-                _eventS1 = e;
-            }
+        /*  foreach (EventSystem e in GameObject.FindObjectsOfType<EventSystem>())
+          {
+             if(e.name == "cursor1")
+              {
+                  Debug.Log("Löyty cursor1");
+                  _eventS1 = e;
+              }
 
-            if (e.name == "cursor2")
-            {
-                Debug.Log("Löyty cursor2");
-                _eventS2 = e;
-            }
-        }
-       */
+              if (e.name == "cursor2")
+              {
+                  Debug.Log("Löyty cursor2");
+                  _eventS2 = e;
+              }
+          }
+         */
     }
+
 
     public void Press(int id)
     {
@@ -42,17 +44,19 @@ public class CharacterButton : MonoBehaviour
             {
                 case 1:
                     //Debug.Log("Player 1 pressed");
-                    characterPrefab.GetComponent<Player>().playerID = 1;
-                    GameManager.instance.AddPlayerToList(characterPrefab);
-                    MainMenu.instance.playerPortrait1.GetComponent<PlayerPortrait>().UpdateInfo(characterPrefab);
+                    GameObject clone1 = characterPrefab;
+                    clone1.GetComponent<Player>().playerID = id;
+                    GameManager.instance.AddPlayerToList(clone1,id);
+                    MainMenu.instance.playerPortrait1.GetComponent<PlayerPortrait>().UpdateInfo(clone1);
                     MainMenu.instance.playerPortrait1.GetComponent<PlayerPortrait>().PlayerIsReady(true);
                     break;
                 case 2:
                     Debug.Log("Player 2 pressed");
-                    characterPrefab.GetComponent<Player>().playerID = 2;
+                    GameObject clone2 = characterPrefab;
+                    clone2.GetComponent<Player>().playerID = id;
                     //Debug.Log(characterPrefab.GetComponent<Player>().playerID);
-                    GameManager.instance.AddPlayerToList(characterPrefab);
-                    MainMenu.instance.playerPortrait2.GetComponent<PlayerPortrait>().UpdateInfo(characterPrefab);
+                    GameManager.instance.AddPlayerToList(clone2,id);
+                    MainMenu.instance.playerPortrait2.GetComponent<PlayerPortrait>().UpdateInfo(clone2);
                     MainMenu.instance.playerPortrait2.GetComponent<PlayerPortrait>().PlayerIsReady(true);
                     break;
                 default:
