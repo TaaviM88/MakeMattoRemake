@@ -112,7 +112,6 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPlayers()
     {
-        Debug.Log($"Spawn Players. Number of players in list {players.Count}");
         
         for (int i = 0; i < players.Count; i++)
         {

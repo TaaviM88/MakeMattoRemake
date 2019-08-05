@@ -10,12 +10,15 @@ public class CharacterButton : MonoBehaviour
 
     public TMP_Text nameSlot, spellNameSlot;
     public Image portrait;
+    private Color originalColorl, p1Color,p2Color, doubleColor;
+    private Image image;
+    
     //EventSystem _eventS;
    //  EventSystem _eventS1;
    // EventSystem _eventS2;
    // new List<GameObject> events = new List<GameObject>();
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         //   _eventS = EventSystem.current;
         /*  foreach (EventSystem e in GameObject.FindObjectsOfType<EventSystem>())
@@ -33,6 +36,12 @@ public class CharacterButton : MonoBehaviour
               }
           }
          */
+        image = GetComponent<Image>();
+
+        originalColorl = image.color;
+        p1Color = Color.blue;
+        p2Color = Color.red;
+        doubleColor = new Color(1, 0, 1);
     }
 
 
@@ -51,10 +60,8 @@ public class CharacterButton : MonoBehaviour
                     MainMenu.instance.playerPortrait1.GetComponent<PlayerPortrait>().PlayerIsReady(true);
                     break;
                 case 2:
-                    Debug.Log("Player 2 pressed");
                     GameObject clone2 = characterPrefab;
                     clone2.GetComponent<Player>().playerID = id;
-                    //Debug.Log(characterPrefab.GetComponent<Player>().playerID);
                     GameManager.instance.AddPlayerToList(clone2,id);
                     MainMenu.instance.playerPortrait2.GetComponent<PlayerPortrait>().UpdateInfo(clone2);
                     MainMenu.instance.playerPortrait2.GetComponent<PlayerPortrait>().PlayerIsReady(true);
@@ -109,6 +116,34 @@ public class CharacterButton : MonoBehaviour
         if(id == 2)
         {
             MainMenu.instance.playerPortrait2.GetComponent<PlayerPortrait>().UpdateInfo(characterPrefab);
+        }
+    }
+
+    public void ChangeColor(int id)
+    {
+        switch(id)
+        {
+            case 0:
+                image.color = originalColorl;
+                break;
+
+            case 1:
+                image.color = p1Color;
+                break;
+            case 2:
+                image.color = p2Color;
+                break;
+            case 3:
+                if(image.color != doubleColor)
+                {
+                    image.color = doubleColor;
+                }
+
+                break;
+
+            default:
+                image.color = originalColorl;
+                break;
         }
     }
 }

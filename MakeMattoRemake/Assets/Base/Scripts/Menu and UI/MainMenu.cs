@@ -14,8 +14,12 @@ public class MainMenu : MonoBehaviour
     public List<GameObject> buttonList = new List<GameObject>();
     //Index for characterPrefabs list
     private int prefabIndexP1 = 0, prefabIndexP2 = 0;
-    private bool readyP1 = false, readyP2 = false; 
+    private bool readyP1 = false, readyP2 = false;
     EventSystem eventSystem;
+
+    public float scrollRate = 1;
+    private float nextScroll1, nextScroll2;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,63 +41,128 @@ public class MainMenu : MonoBehaviour
 
         GenerateCharacterButtons();
 
+        //let's check that our counter is not bigger than our list if it's for somereason let's set it to last item of the list. 
+        if (prefabIndexP1 > buttonList.Count)
+        {
+            prefabIndexP1 = buttonList.Count;
 
+        }
+
+        if (prefabIndexP2 > buttonList.Count)
+        {
+            prefabIndexP2 = buttonList.Count;
+        }
+
+        //Change button color to doublecolor because both players are in  same button;
+        if (prefabIndexP1 == prefabIndexP2)
+        {
+            buttonList[prefabIndexP1].GetComponent<CharacterButton>().ChangeColor(3);
+        }
+
+        //Update avatars for start
+        buttonList[prefabIndexP1].GetComponent<CharacterButton>().UpdateAvatar(1);
+        buttonList[prefabIndexP2].GetComponent<CharacterButton>().UpdateAvatar(2);
     }
 
     public void Update()
     {
         //Player 1
-        if (Input.GetKeyDown(KeyCode.S) && !readyP1)
+        //if (Input.GetKeyDown(KeyCode.S) && !readyP1)
+        if (!readyP1)
         {
-            prefabIndexP1++;
-            if (prefabIndexP1 < buttonList.Count)
+
+            if (Input.GetAxis("Vertical") > 0 && Time.time > nextScroll1)
             {
-                CharacterButton charB = buttonList[prefabIndexP1].GetComponent<CharacterButton>(); //eventSystem.currentSelectedGameObject.GetComponent<CharacterButton>();
-                charB.UpdateAvatar(1);            }
-            else
+                buttonList[prefabIndexP1].GetComponent<CharacterButton>().ChangeColor(0);
+                prefabIndexP1++;
+                if (prefabIndexP1 < buttonList.Count)
+                {
+                    CharacterButton charB = buttonList[prefabIndexP1].GetComponent<CharacterButton>(); //eventSystem.currentSelectedGameObject.GetComponent<CharacterButton>();
+                    charB.UpdateAvatar(1);
+                }
+                else
+                {
+                    prefabIndexP1 = 0;
+                    CharacterButton charB = buttonList[prefabIndexP1].GetComponent<CharacterButton>(); //eventSystem.currentSelectedGameObject.GetComponent<CharacterButton>();
+                    charB.UpdateAvatar(1);
+                }
+
+                buttonList[prefabIndexP1].GetComponent<CharacterButton>().ChangeColor(1);
+                nextScroll1 = Time.time + scrollRate;
+            }
+            else if (Input.GetAxis("Vertical") < 0 && Time.time > nextScroll1)
             {
-                prefabIndexP1 = 0;
-                CharacterButton charB = buttonList[prefabIndexP1].GetComponent<CharacterButton>(); //eventSystem.currentSelectedGameObject.GetComponent<CharacterButton>();
-                charB.UpdateAvatar(1);
+                buttonList[prefabIndexP1].GetComponent<CharacterButton>().ChangeColor(0);
+
+                prefabIndexP1--;
+                if (prefabIndexP1 < 0)
+                {
+                    prefabIndexP1 = buttonList.Count - 1;
+                    CharacterButton charB = buttonList[prefabIndexP1].GetComponent<CharacterButton>(); //eventSystem.currentSelectedGameObject.GetComponent<CharacterButton>();
+                    charB.UpdateAvatar(1);
+                }
+                else
+                {
+                    CharacterButton charB = buttonList[prefabIndexP1].GetComponent<CharacterButton>(); //eventSystem.currentSelectedGameObject.GetComponent<CharacterButton>();
+                    charB.UpdateAvatar(1);
+                }
+
+                buttonList[prefabIndexP1].GetComponent<CharacterButton>().ChangeColor(1);
+                nextScroll1 = Time.time + scrollRate;
             }
 
+            if (Input.GetButtonUp("Fire1"))
+            {
+                CharacterButton charB = buttonList[prefabIndexP1].GetComponent<CharacterButton>(); //eventSystem.currentSelectedGameObject.GetComponent<CharacterButton>();
+                charB.Press(1);
+                readyP1 = true;
+            }
         }
-
-        if (Input.GetButtonUp("Fire1") && !readyP1)
-        {
-            CharacterButton charB = buttonList[prefabIndexP1].GetComponent<CharacterButton>(); //eventSystem.currentSelectedGameObject.GetComponent<CharacterButton>();
-            charB.Press(1);
-            readyP1 = true;
-        }
-
         //player 2 
-        if (Input.GetKeyDown(KeyCode.K) && !readyP2)
+        if (!readyP2)
         {
-            prefabIndexP2++;
-            if (prefabIndexP2 < buttonList.Count)
+            if (Input.GetKeyDown(KeyCode.K) && Time.deltaTime > nextScroll2)
             {
-            //    eventSystem.SetSelectedGameObject(buttonList[prefabIndexP2]);
+                buttonList[prefabIndexP2].GetComponent<CharacterButton>().ChangeColor(0);
+                prefabIndexP2++;
+                if (prefabIndexP2 < buttonList.Count)
+                {
+                    //    eventSystem.SetSelectedGameObject(buttonList[prefabIndexP2]);
 
-                CharacterButton charB = buttonList[prefabIndexP2].GetComponent<CharacterButton>(); //eventSystem.currentSelectedGameObject.GetComponent<CharacterButton>();
-                charB.UpdateAvatar(2);
+                    CharacterButton charB = buttonList[prefabIndexP2].GetComponent<CharacterButton>(); //eventSystem.currentSelectedGameObject.GetComponent<CharacterButton>();
+                    charB.UpdateAvatar(2);
 
-                Debug.Log($"Current button is {buttonList[prefabIndexP2].name}");
+
+                }
+                else
+                {
+                    prefabIndexP2 = 0;
+                    CharacterButton charB = buttonList[prefabIndexP2].GetComponent<CharacterButton>(); //eventSystem.currentSelectedGameObject.GetComponent<CharacterButton>();
+                    charB.UpdateAvatar(2);
+
+                }
+
+                buttonList[prefabIndexP2].GetComponent<CharacterButton>().ChangeColor(2);
+                nextScroll2 = Time.time + scrollRate;
             }
-            else
+
+            if (Input.GetButtonUp("Fire2") && !readyP2)
             {
-                prefabIndexP2 = 0;
                 CharacterButton charB = buttonList[prefabIndexP2].GetComponent<CharacterButton>(); //eventSystem.currentSelectedGameObject.GetComponent<CharacterButton>();
-                charB.UpdateAvatar(2);
-                Debug.Log($"Reset! Current button is {buttonList[prefabIndexP2].name}");
+                charB.Press(2);
+                readyP2 = true;
             }
-
         }
 
-        if (Input.GetButtonUp("Fire2") && !readyP2)
+
+        if (prefabIndexP1 == prefabIndexP2)
         {
-            CharacterButton charB = buttonList[prefabIndexP2].GetComponent<CharacterButton>(); //eventSystem.currentSelectedGameObject.GetComponent<CharacterButton>();
-            charB.Press(2); 
-            readyP2 = true;
+            buttonList[prefabIndexP1].GetComponent<CharacterButton>().ChangeColor(3);
+        }
+        else
+        {
+            buttonList[prefabIndexP1].GetComponent<CharacterButton>().ChangeColor(1);
+            buttonList[prefabIndexP2].GetComponent<CharacterButton>().ChangeColor(2);
         }
     }
 
@@ -126,4 +195,5 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Mutti");
     }
+
 }
